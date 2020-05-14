@@ -1,0 +1,17 @@
+Mögliche Attribute:
+> Höchstbestand im Lager
+> Verbrauch je Zeiteinheit und je Produkt
+
+Bestand & Nachfrage:
+A) 300/100	C) 100/100
+B) 150/50	D) 450/50
+
+A) Bestand: mittel; Nachfrage: mittel => mittel 
+B) Bestand: niedrig; Nachfrage: niedrig => mittel
+C) Bestand: niedrig; Nachfrage: mittel => mittel
+D) Bestand: hoch; Nachfrage: niedrig => niedrig
+
+Endergebnis
+100 - 100 => hoch
+500 - 100 => mittel
+1000 - 100 => niedrig
