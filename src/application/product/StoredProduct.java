@@ -1,6 +1,6 @@
-package application;
+package application.product;
 
-public class OrderItem {
+public class StoredProduct {
     private Product product;
 
     public Product getProduct() {
@@ -21,7 +21,11 @@ public class OrderItem {
 	this.amount = amount;
     }
 
-    public OrderItem(Product product, int amount) {
+    public double getPrice() {
+	return (product.getPrice() * amount);
+    }
+
+    public StoredProduct(Product product, int amount) {
 	this.product = product;
 	this.amount = amount;
     }
