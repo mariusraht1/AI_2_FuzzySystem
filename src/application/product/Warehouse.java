@@ -1,7 +1,5 @@
 package application.product;
 
-import java.util.ArrayList;
-
 import application.Main;
 import application.fuzzy.FuzzyAmount;
 
@@ -26,13 +24,13 @@ public class Warehouse {
 		this.maxNumOfStock = maxNumOfStock;
 	}
 
-	private ArrayList<StoredProduct> storedProducts;
+	private StoredProductList storedProducts;
 
-	public ArrayList<StoredProduct> getStoredProducts() {
+	public StoredProductList getStoredProducts() {
 		return storedProducts;
 	}
 
-	public void setStoredProducts(ArrayList<StoredProduct> storedProducts) {
+	public void setStoredProducts(StoredProductList storedProducts) {
 		this.storedProducts = storedProducts;
 	}
 
@@ -52,32 +50,24 @@ public class Warehouse {
 
 		this.maxNumOfStock = maxNumOfStock;
 
-		storedProducts = new ArrayList<StoredProduct>();
+		storedProducts = new StoredProductList();
 		for (Main.DefaultStoredProduct defaultStoredProduct : Main.DefaultStoredProduct.values()) {
 			storedProducts.add(defaultStoredProduct.getStoredProduct());
 		}
 	}
 
-	public int detTotalStoredAmount() {
+	public int getTotalStockAmount() {
 		int storedAmount = 0;
 
 		for (StoredProduct storedProduct : storedProducts) {
-			storedAmount += storedProduct.getAmount();
+			storedAmount += storedProduct.getNumOfStock();
 		}
 
 		return storedAmount;
 	}
-
-	public int detStoredAmount(Product product) {
-		int storedAmount = 0;
-
-		for (StoredProduct storedProduct : storedProducts) {
-			if (storedProduct.getProduct().equals(product)) {
-				storedAmount += storedProduct.getAmount();
-			}
-		}
-
-		return storedAmount;
+	
+	public int getMaxDemandAmount() {
+		return maxNumOfStock - getTotalStockAmount();
 	}
 
 	public FuzzyAmount fuzzifyStockAmount() {

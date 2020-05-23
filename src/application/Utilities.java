@@ -53,4 +53,15 @@ public class Utilities {
 			return dividend / divisor;
 		}
 	}
+
+	public int parseInt(String s) {
+		int result = 0;
+
+		try {
+			result = Integer.parseInt(s);
+		} catch (Exception e) {
+		}
+
+		return result;
+	}
 }

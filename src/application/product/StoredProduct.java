@@ -1,5 +1,7 @@
 package application.product;
 
+import application.fuzzy.FuzzyAmount;
+
 public class StoredProduct {
 	private Product product;
 
@@ -11,22 +13,62 @@ public class StoredProduct {
 		this.product = product;
 	}
 
-	private int amount;
+	private int numOfStock;
 
-	public int getAmount() {
-		return amount;
+	public int getNumOfStock() {
+		return numOfStock;
 	}
 
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setNumOfStock(int numOfStock) {
+		this.numOfStock = numOfStock;
 	}
 
+	public void increaseNumOfStock(int increase) {
+		this.numOfStock += increase;
+	}
+
+	public void decreaseNumOfStock(int decrease) {
+		this.numOfStock -= decrease;
+	}
+	
+	private int numOfDemand;
+
+	public int getNumOfDemand() {
+		return numOfDemand;
+	}
+
+	public void setNumOfDemand(int numOfDemand) {
+		this.numOfDemand = numOfDemand;
+	}
+	
 	public double getPrice() {
-		return (product.getPrice() * amount);
+		return (product.getPrice() * numOfStock);
+	}
+
+	private FuzzyAmount fuzzyStockAmount;
+
+	public FuzzyAmount getFuzzyStockAmount() {
+		return fuzzyStockAmount;
+	}
+
+	public void setFuzzyStockAmount(FuzzyAmount fuzzyStockAmount) {
+		this.fuzzyStockAmount = fuzzyStockAmount;
+	}
+
+	private FuzzyAmount fuzzyDemandAmount;
+
+	public FuzzyAmount getFuzzyDemandAmount() {
+		return fuzzyDemandAmount;
+	}
+
+	public void setFuzzyDemandAmount(FuzzyAmount fuzzyDemandAmount) {
+		this.fuzzyDemandAmount = fuzzyDemandAmount;
 	}
 
 	public StoredProduct(Product product, int amount) {
 		this.product = product;
-		this.amount = amount;
+		this.numOfStock = amount;
 	}
+
+
 }

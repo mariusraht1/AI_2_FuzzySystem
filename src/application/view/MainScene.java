@@ -2,6 +2,8 @@ package application.view;
 
 import application.History;
 import application.Main;
+import application.Utilities;
+import application.product.Warehouse;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -29,6 +31,14 @@ public class MainScene {
 	private TextField tf_numOfAddStock;
 	@FXML
 	private Label lbl_totalMaxStock;
+	@FXML
+	private TextField tf_numOfDemand_a;
+	@FXML
+	private TextField tf_numOfDemand_b;
+	@FXML
+	private TextField tf_numOfDemand_c;
+	@FXML
+	private TextField tf_numOfDemand_d;
 	@FXML
 	private LineChart<Integer, Integer> lc_stockAmount;
 	@FXML
@@ -84,37 +94,13 @@ public class MainScene {
 	}
 
 	protected void update_lbl_totalMaxStock() {
-		int numOfAddStock = 0;
-		try {
-			numOfAddStock = Integer.parseInt(tf_numOfAddStock.getText());
-		} catch (Exception e) {
-		}
-
-		int numOfStock_a = 0;
-		try {
-			numOfStock_a = Integer.parseInt(tf_numOfStock_a.getText());
-		} catch (Exception e) {
-		}
-
-		int numOfStock_b = 0;
-		try {
-			numOfStock_b = Integer.parseInt(tf_numOfStock_b.getText());
-		} catch (Exception e) {
-		}
-
-		int numOfStock_c = 0;
-		try {
-			numOfStock_c = Integer.parseInt(tf_numOfStock_c.getText());
-		} catch (Exception e) {
-		}
-
-		int numOfStock_d = 0;
-		try {
-			numOfStock_d = Integer.parseInt(tf_numOfStock_d.getText());
-		} catch (Exception e) {
-		}
-
+		int numOfAddStock = Utilities.getInstance().parseInt(tf_numOfAddStock.getText());
+		int numOfStock_a = Utilities.getInstance().parseInt(tf_numOfStock_a.getText());
+		int numOfStock_b = Utilities.getInstance().parseInt(tf_numOfStock_b.getText());
+		int numOfStock_c = Utilities.getInstance().parseInt(tf_numOfStock_c.getText());
+		int numOfStock_d = Utilities.getInstance().parseInt(tf_numOfStock_d.getText());
 		int maxNumOfStock = numOfAddStock + numOfStock_a + numOfStock_b + numOfStock_c + numOfStock_d;
+
 		lbl_totalMaxStock.setText("(" + String.valueOf(maxNumOfStock) + ")");
 	}
 
@@ -125,7 +111,43 @@ public class MainScene {
 
 	@FXML
 	private void onAction_btnPlay() {
+		// TODO: Implement play
 
+		int numOfDemand_a = Utilities.getInstance().parseInt(tf_numOfDemand_a.getText());
+		int numOfDemand_b = Utilities.getInstance().parseInt(tf_numOfDemand_b.getText());
+		int numOfDemand_c = Utilities.getInstance().parseInt(tf_numOfDemand_c.getText());
+		int numOfDemand_d = Utilities.getInstance().parseInt(tf_numOfDemand_d.getText());
+
+		int numOfStock_a = Warehouse.getInstance().getStoredProducts()
+				.getByName(Main.DefaultStoredProduct.PRODUCT_A.name()).getNumOfStock();
+		int numOfStock_b = Warehouse.getInstance().getStoredProducts()
+				.getByName(Main.DefaultStoredProduct.PRODUCT_B.name()).getNumOfStock();
+		int numOfStock_c = Warehouse.getInstance().getStoredProducts()
+				.getByName(Main.DefaultStoredProduct.PRODUCT_C.name()).getNumOfStock();
+		int numOfStock_d = Warehouse.getInstance().getStoredProducts()
+				.getByName(Main.DefaultStoredProduct.PRODUCT_D.name()).getNumOfStock();
+
+		if (numOfDemand_a < 0) {
+			tf_numOfDemand_a.setText("0");
+		} else if (numOfDemand_a > numOfStock_a) {
+			tf_numOfDemand_a.setText(String.valueOf(numOfStock_a));
+		} else if (numOfDemand_b < 0) {
+			tf_numOfDemand_b.setText("0");
+		} else if (numOfDemand_b > numOfStock_b) {
+			tf_numOfDemand_b.setText(String.valueOf(numOfStock_b));
+		} else if (numOfDemand_c < 0) {
+			tf_numOfDemand_c.setText("0");
+		} else if (numOfDemand_c > numOfStock_c) {
+			tf_numOfDemand_c.setText(String.valueOf(numOfStock_c));
+		} else if (numOfDemand_d < 0) {
+			tf_numOfDemand_d.setText("0");
+		} else if (numOfDemand_d > numOfStock_d) {
+			tf_numOfDemand_d.setText(String.valueOf(numOfStock_d));
+		} else {
+			
+			
+			
+		}
 	}
 
 	@FXML
@@ -136,33 +158,24 @@ public class MainScene {
 
 	@FXML
 	private void onAction_btnSetInitValues() {
-		try {
-			int numOfAddStock = Integer.parseInt(tf_numOfAddStock.getText());
-			int numOfStock_a = Integer.parseInt(tf_numOfStock_a.getText());
-			int numOfStock_b = Integer.parseInt(tf_numOfStock_b.getText());
-			int numOfStock_c = Integer.parseInt(tf_numOfStock_c.getText());
-			int numOfStock_d = Integer.parseInt(tf_numOfStock_d.getText());
+		int numOfAddStock = Utilities.getInstance().parseInt(tf_numOfAddStock.getText());
+		int numOfStock_a = Utilities.getInstance().parseInt(tf_numOfStock_a.getText());
+		int numOfStock_b = Utilities.getInstance().parseInt(tf_numOfStock_b.getText());
+		int numOfStock_c = Utilities.getInstance().parseInt(tf_numOfStock_c.getText());
+		int numOfStock_d = Utilities.getInstance().parseInt(tf_numOfStock_d.getText());
 
-			if (numOfAddStock < 0) {
-				tf_numOfAddStock.setText(String.valueOf(Main.DefaultNumOfAddStock));
-			} else if (numOfStock_a < 0) {
-				tf_numOfStock_a.setText(String.valueOf(Main.DefaultNumOfStock_A));
-			} else if (numOfStock_b < 0) {
-				tf_numOfStock_b.setText(String.valueOf(Main.DefaultNumOfStock_B));
-			} else if (numOfStock_c < 0) {
-				tf_numOfStock_c.setText(String.valueOf(Main.DefaultNumOfStock_C));
-			} else if (numOfStock_d < 0) {
-				tf_numOfStock_d.setText(String.valueOf(Main.DefaultNumOfStock_D));
-			} else {
-				initialize();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (numOfAddStock < 0) {
+			tf_numOfAddStock.setText(String.valueOf(Main.DefaultNumOfAddStock));
+		} else if (numOfStock_a < 0) {
+			tf_numOfStock_a.setText(String.valueOf(Main.DefaultNumOfStock_A));
+		} else if (numOfStock_b < 0) {
+			tf_numOfStock_b.setText(String.valueOf(Main.DefaultNumOfStock_B));
+		} else if (numOfStock_c < 0) {
+			tf_numOfStock_c.setText(String.valueOf(Main.DefaultNumOfStock_C));
+		} else if (numOfStock_d < 0) {
+			tf_numOfStock_d.setText(String.valueOf(Main.DefaultNumOfStock_D));
+		} else {
+			initialize();
 		}
-	}
-
-	@FXML
-	private void onAction_btnSetNumOfStock() {
-
 	}
 }

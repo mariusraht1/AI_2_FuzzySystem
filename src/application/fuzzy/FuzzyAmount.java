@@ -1,30 +1,43 @@
 package application.fuzzy;
 
 public enum FuzzyAmount {
-	NOTHING(0, 0), VERY_LOW(1, 20), LOW(21, 40), MEDIUM(41, 60), HIGH(61, 80), VERY_HIGH(81, 100);
+	NOTHING(0.00, 0.00), VERY_LOW(0.01, 0.20), LOW(0.21, 0.40), MEDIUM(0.41, 0.60), HIGH(0.61, 0.80), VERY_HIGH(0.81, 0.100);
 
-	private int min;
+	private double min;
 
-	public int getMin() {
+	public double getMin() {
 		return min;
 	}
 
-	public void setMin(int min) {
+	public void setMin(double min) {
 		this.min = min;
 	}
 
-	private int max;
+	private double max;
 
-	public int getMax() {
+	public double getMax() {
 		return max;
 	}
 
-	public void setMax(int max) {
+	public void setMax(double max) {
 		this.max = max;
 	}
 
-	private FuzzyAmount(int min, int max) {
+	private FuzzyAmount(double min, double max) {
 		this.min = min;
 		this.max = max;
+	}
+	
+	public static FuzzyAmount detAmount(double rate) {
+		FuzzyAmount result = FuzzyAmount.NOTHING;
+		
+		for(FuzzyAmount fuzzyAmount : FuzzyAmount.values()) {
+			if(fuzzyAmount.getMin() <= rate && fuzzyAmount.getMax() >= rate) {
+				result = fuzzyAmount;
+				break;
+			}
+		}
+		
+		return result;
 	}
 }
