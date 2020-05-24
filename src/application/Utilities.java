@@ -45,8 +45,8 @@ public class Utilities {
 
 		return osType;
 	}
-
-	public int divide(int dividend, int divisor) {
+	
+	public double divide(double dividend, double divisor) {
 		if (divisor == 0) {
 			return 0;
 		} else {

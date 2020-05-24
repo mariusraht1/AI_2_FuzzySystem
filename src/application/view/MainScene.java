@@ -1,6 +1,7 @@
 package application.view;
 
 import application.History;
+import application.Log;
 import application.Main;
 import application.Utilities;
 import application.product.Warehouse;
@@ -13,12 +14,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 public class MainScene {
-	// TODO:
-	// > Configurable total amount of warehouse
-	// > Configurable start amount of products
-	// > Report function of sold amounts of products
-	// > Graph to view development of sold, ordered and stored amounts
-
 	@FXML
 	private TextField tf_numOfStock_a;
 	@FXML
@@ -46,6 +41,8 @@ public class MainScene {
 
 	@FXML
 	private void initialize() {
+		Log.getInstance().setOutputControl(lv_console);
+		
 		initGUI();
 		initEvents();
 	}
@@ -111,21 +108,23 @@ public class MainScene {
 
 	@FXML
 	private void onAction_btnPlay() {
-		// TODO: Implement play
-
 		int numOfDemand_a = Utilities.getInstance().parseInt(tf_numOfDemand_a.getText());
 		int numOfDemand_b = Utilities.getInstance().parseInt(tf_numOfDemand_b.getText());
 		int numOfDemand_c = Utilities.getInstance().parseInt(tf_numOfDemand_c.getText());
 		int numOfDemand_d = Utilities.getInstance().parseInt(tf_numOfDemand_d.getText());
 
 		int numOfStock_a = Warehouse.getInstance().getStoredProducts()
-				.getByName(Main.DefaultStoredProduct.PRODUCT_A.name()).getNumOfStock();
+				.getByName(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().getProduct().getName())
+				.getNumOfStock();
 		int numOfStock_b = Warehouse.getInstance().getStoredProducts()
-				.getByName(Main.DefaultStoredProduct.PRODUCT_B.name()).getNumOfStock();
+				.getByName(Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().getProduct().getName())
+				.getNumOfStock();
 		int numOfStock_c = Warehouse.getInstance().getStoredProducts()
-				.getByName(Main.DefaultStoredProduct.PRODUCT_C.name()).getNumOfStock();
+				.getByName(Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().getProduct().getName())
+				.getNumOfStock();
 		int numOfStock_d = Warehouse.getInstance().getStoredProducts()
-				.getByName(Main.DefaultStoredProduct.PRODUCT_D.name()).getNumOfStock();
+				.getByName(Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().getProduct().getName())
+				.getNumOfStock();
 
 		if (numOfDemand_a < 0) {
 			tf_numOfDemand_a.setText("0");
@@ -144,9 +143,11 @@ public class MainScene {
 		} else if (numOfDemand_d > numOfStock_d) {
 			tf_numOfDemand_d.setText(String.valueOf(numOfStock_d));
 		} else {
-			
-			
-			
+			Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().order(numOfDemand_a);
+			Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().order(numOfDemand_b);
+			Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().order(numOfDemand_c);
+			Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().order(numOfDemand_d);
+			Warehouse.getInstance().order();
 		}
 	}
 

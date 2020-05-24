@@ -1,5 +1,6 @@
 package application.product;
 
+import application.Utilities;
 import application.fuzzy.FuzzyAmount;
 
 public class StoredProduct {
@@ -30,7 +31,7 @@ public class StoredProduct {
 	public void decreaseNumOfStock(int decrease) {
 		this.numOfStock -= decrease;
 	}
-	
+
 	private int numOfDemand;
 
 	public int getNumOfDemand() {
@@ -39,8 +40,10 @@ public class StoredProduct {
 
 	public void setNumOfDemand(int numOfDemand) {
 		this.numOfDemand = numOfDemand;
+
+		this.fuzzyDemandAmount = FuzzyAmount.detAmount(Utilities.getInstance().divide(numOfDemand, numOfStock));
 	}
-	
+
 	public double getPrice() {
 		return (product.getPrice() * numOfStock);
 	}
@@ -70,5 +73,8 @@ public class StoredProduct {
 		this.numOfStock = amount;
 	}
 
-
+	public void order(int numOfDemand) {
+		setNumOfDemand(numOfDemand);
+		decreaseNumOfStock(numOfDemand);
+	}
 }

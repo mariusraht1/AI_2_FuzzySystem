@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  * Fuzzy System for Warehouse Ordering System
  * 
  * @author Marius Raht
- * @version 14.05.2020-001
+ * @version 24.05.2020-001
  */
 public class Main extends Application {
 	private static Stage primaryStage;

@@ -38,7 +38,7 @@ public class History {
 		preySeries.getData().clear();
 	}
 
-// TODO: Stock, Sell and Demand Amount
+// TODO: Save Stock, Sell and Demand Amount per Product
 //    public void add(int numOfPredator, int numOfPrey, Series<Integer, Integer> predatorSeries,
 //	    Series<Integer, Integer> preySeries) {
 //	population.add(new int[] { numOfPredator, numOfPrey });
