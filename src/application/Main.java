@@ -33,18 +33,18 @@ public class Main extends Application {
 		PRODUCT_B(new StoredProduct(new Product("Produkt B"), Main.DefaultNumOfStock_B)),
 		PRODUCT_C(new StoredProduct(new Product("Produkt C"), Main.DefaultNumOfStock_C)),
 		PRODUCT_D(new StoredProduct(new Product("Produkt D"), Main.DefaultNumOfStock_D));
-		
+
 		private StoredProduct storedProduct;
-		
+
 		public StoredProduct getStoredProduct() {
 			return storedProduct;
 		}
-		
+
 		private DefaultStoredProduct(StoredProduct storedProduct) {
 			this.storedProduct = storedProduct;
 		}
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {

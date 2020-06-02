@@ -44,10 +44,6 @@ public class StoredProduct {
 		this.fuzzyDemandAmount = FuzzyAmount.detAmount(Utilities.getInstance().divide(numOfDemand, numOfStock));
 	}
 
-	public double getPrice() {
-		return (product.getPrice() * numOfStock);
-	}
-
 	private FuzzyAmount fuzzyStockAmount;
 
 	public FuzzyAmount getFuzzyStockAmount() {
