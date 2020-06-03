@@ -79,7 +79,7 @@ public class MainScene {
 		initEvents();
 	}
 
-	private void initChart() {		
+	private void initChart() {
 		if (!bc_stock_a.getData().contains(series_stock_a)) {
 			bc_stock_a.getData().add(series_stock_a);
 		}
@@ -123,7 +123,7 @@ public class MainScene {
 		xyCharts.add(lc_demand_c);
 		xyCharts.add(bc_stock_d);
 		xyCharts.add(lc_demand_d);
-		
+
 		ArrayList<Series<String, Integer>> seriesList = new ArrayList<Series<String, Integer>>();
 		seriesList.add(series_stock_a);
 		seriesList.add(series_demand_a);
@@ -133,7 +133,7 @@ public class MainScene {
 		seriesList.add(series_demand_c);
 		seriesList.add(series_stock_d);
 		seriesList.add(series_demand_d);
-			
+
 		History.getInstance().clear(xyCharts, seriesList);
 
 		History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct(), series_stock_a,
@@ -203,7 +203,7 @@ public class MainScene {
 	}
 
 	@FXML
-	private void onAction_btnReset() {		
+	private void onAction_btnReset() {
 		initialize();
 	}
 

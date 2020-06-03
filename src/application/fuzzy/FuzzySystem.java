@@ -12,7 +12,7 @@ public class FuzzySystem {
 	}
 
 	private int round = 0;
-	
+
 	public int getRound() {
 		return round;
 	}
@@ -20,11 +20,11 @@ public class FuzzySystem {
 	public void setRound(int round) {
 		this.round = round;
 	}
-	
+
 	public void increaseRound() {
 		this.round += 1;
 	}
-	
+
 	private FuzzySystem() {
 	}
 

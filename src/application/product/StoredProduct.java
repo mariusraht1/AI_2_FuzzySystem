@@ -62,10 +62,10 @@ public class StoredProduct {
 	// FIX Detects demand == NOTHING though we ordered a lot
 	public void order(int numOfDemand) {
 		int oldStockAmount = getNumOfStock();
-		
+
 		setNumOfDemand(numOfDemand);
 		int demandAmount = getNumOfDemand();
-		
+
 		decreaseNumOfStock(numOfDemand);
 		int newStockAmount = getNumOfStock();
 
@@ -78,10 +78,10 @@ public class StoredProduct {
 		Log.getInstance().add("==> " + getProduct().getName());
 		Log.getInstance().add("Demand amount: " + fuzzyDemandAmount.toString() + " (" + demandAmount + ")");
 		Log.getInstance().add("Stock amount: " + fuzzyStockAmount.toString() + " (" + newStockAmount + ")");
-		
+
 		FuzzyAmount fuzzyOrderAmount = FuzzySystem.getInstance().getFuzzyOrderAmount(fuzzyDemandAmount,
 				fuzzyStockAmount);
-		
+
 		int orderAmount = 0;
 		if (!fuzzyOrderAmount.equals(FuzzyAmount.NOTHING)) {
 			orderAmount = (int) (getNumOfDemand() * (1 + fuzzyOrderAmount.getMedian())) - newStockAmount;
