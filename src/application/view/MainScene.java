@@ -70,6 +70,8 @@ public class MainScene {
 
 	@FXML
 	private void initialize() {
+		// OPT Set upperBound of charts to maximum stock amount
+		
 		Log.getInstance().setOutputControl(lv_console);
 		FuzzySystem.getInstance().setRound(0);
 
