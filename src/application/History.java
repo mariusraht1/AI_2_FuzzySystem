@@ -10,6 +10,8 @@ import java.util.List;
 import application.Utilities.OSType;
 import application.fuzzy.FuzzySystem;
 import application.product.StoredProduct;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 
@@ -35,10 +37,17 @@ public class History {
 	private History() {
 	};
 
-	public void clear(Series<String, Integer> series_stock_a, Series<String, Integer> series_demand_a) {
+	public void clear(ArrayList<XYChart<String, Integer>> charts, ArrayList<Series<String, Integer>> seriesList) {
 		development.clear();
-		series_stock_a.getData().clear();
-		series_demand_a.getData().clear();
+
+		for (XYChart<String, Integer> xyChart : charts) {
+			CategoryAxis categoryAxis = (CategoryAxis) xyChart.getXAxis();
+			categoryAxis.getCategories().clear();
+		}
+
+		for (Series<String, Integer> serie : seriesList) {
+			serie.getData().clear();
+		}
 	}
 
 	public void add(StoredProduct storedProduct, Series<String, Integer> series_stock_a,

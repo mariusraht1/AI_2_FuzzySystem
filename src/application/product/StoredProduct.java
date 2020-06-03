@@ -59,7 +59,7 @@ public class StoredProduct {
 		this.numOfStock = amount;
 	}
 
-	// FIX Detects demand == NOTHING though we ordered a lot  
+	// FIX Detects demand == NOTHING though we ordered a lot
 	public void order(int numOfDemand) {
 		int oldStockAmount = getNumOfStock();
 		

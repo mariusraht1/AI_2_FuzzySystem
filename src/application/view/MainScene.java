@@ -1,5 +1,7 @@
 package application.view;
 
+import java.util.ArrayList;
+
 import application.History;
 import application.Log;
 import application.Main;
@@ -11,6 +13,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -58,10 +61,17 @@ public class MainScene {
 
 	private Series<String, Integer> series_stock_a = new Series<String, Integer>();
 	private Series<String, Integer> series_demand_a = new Series<String, Integer>();
+	private Series<String, Integer> series_stock_b = new Series<String, Integer>();
+	private Series<String, Integer> series_demand_b = new Series<String, Integer>();
+	private Series<String, Integer> series_stock_c = new Series<String, Integer>();
+	private Series<String, Integer> series_demand_c = new Series<String, Integer>();
+	private Series<String, Integer> series_stock_d = new Series<String, Integer>();
+	private Series<String, Integer> series_demand_d = new Series<String, Integer>();
 
 	@FXML
 	private void initialize() {
 		Log.getInstance().setOutputControl(lv_console);
+		FuzzySystem.getInstance().setRound(0);
 
 		initChart();
 		initHistory();
@@ -69,24 +79,71 @@ public class MainScene {
 		initEvents();
 	}
 
-	private void initChart() {
-		series_stock_a.setName("series_stock_a");
-		series_demand_a.setName("series_demand_a");
-
+	private void initChart() {		
 		if (!bc_stock_a.getData().contains(series_stock_a)) {
 			bc_stock_a.getData().add(series_stock_a);
 		}
-		
+
 		if (!lc_demand_a.getData().contains(series_demand_a)) {
 			lc_demand_a.getData().add(series_demand_a);
 		}
-		
+
+		if (!bc_stock_b.getData().contains(series_stock_b)) {
+			bc_stock_b.getData().add(series_stock_b);
+		}
+
+		if (!lc_demand_b.getData().contains(series_demand_b)) {
+			lc_demand_b.getData().add(series_demand_b);
+		}
+
+		if (!bc_stock_c.getData().contains(series_stock_c)) {
+			bc_stock_c.getData().add(series_stock_c);
+		}
+
+		if (!lc_demand_c.getData().contains(series_demand_c)) {
+			lc_demand_c.getData().add(series_demand_c);
+		}
+
+		if (!bc_stock_d.getData().contains(series_stock_d)) {
+			bc_stock_d.getData().add(series_stock_d);
+		}
+
+		if (!lc_demand_d.getData().contains(series_demand_d)) {
+			lc_demand_d.getData().add(series_demand_d);
+		}
 	}
 
 	private void initHistory() {
-		History.getInstance().clear(series_stock_a, series_demand_a);
+		ArrayList<XYChart<String, Integer>> xyCharts = new ArrayList<XYChart<String, Integer>>();
+		xyCharts.add(bc_stock_a);
+		xyCharts.add(lc_demand_a);
+		xyCharts.add(bc_stock_b);
+		xyCharts.add(lc_demand_b);
+		xyCharts.add(bc_stock_c);
+		xyCharts.add(lc_demand_c);
+		xyCharts.add(bc_stock_d);
+		xyCharts.add(lc_demand_d);
+		
+		ArrayList<Series<String, Integer>> seriesList = new ArrayList<Series<String, Integer>>();
+		seriesList.add(series_stock_a);
+		seriesList.add(series_demand_a);
+		seriesList.add(series_stock_b);
+		seriesList.add(series_demand_b);
+		seriesList.add(series_stock_c);
+		seriesList.add(series_demand_c);
+		seriesList.add(series_stock_d);
+		seriesList.add(series_demand_d);
+			
+		History.getInstance().clear(xyCharts, seriesList);
+
 		History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct(), series_stock_a,
 				series_demand_a);
+		History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct(), series_stock_b,
+				series_demand_b);
+		History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct(), series_stock_c,
+				series_demand_c);
+		History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct(), series_stock_d,
+				series_demand_d);
 	}
 
 	private void initGUI() {
@@ -146,7 +203,7 @@ public class MainScene {
 	}
 
 	@FXML
-	private void onAction_btnReset() {
+	private void onAction_btnReset() {		
 		initialize();
 	}
 
@@ -198,11 +255,16 @@ public class MainScene {
 					series_demand_a);
 
 			Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().order(numOfDemand_b);
+			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct(), series_stock_b,
+					series_demand_b);
 
 			Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().order(numOfDemand_c);
+			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct(), series_stock_c,
+					series_demand_c);
 
 			Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().order(numOfDemand_d);
-
+			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct(), series_stock_d,
+					series_demand_d);
 		}
 	}
 
