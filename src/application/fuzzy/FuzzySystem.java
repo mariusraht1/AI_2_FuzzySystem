@@ -11,12 +11,24 @@ public class FuzzySystem {
 		return instance;
 	}
 
+	private int round = 0;
+	
+	public int getRound() {
+		return round;
+	}
+
+	public void setRound(int round) {
+		this.round = round;
+	}
+	
+	public void increaseRound() {
+		this.round += 1;
+	}
+	
 	private FuzzySystem() {
 	}
 
-	// TODO: With stockAmount we mean the new stock amount after subtracting the
-	// demand from the stock
-	public FuzzyAmount calcOrderAmount(FuzzyAmount demandAmount, FuzzyAmount stockAmount) {
+	public FuzzyAmount getFuzzyOrderAmount(FuzzyAmount demandAmount, FuzzyAmount stockAmount) {
 		FuzzyAmount orderAmount = FuzzyAmount.NOTHING;
 
 		switch (demandAmount) {
@@ -80,10 +92,10 @@ public class FuzzySystem {
 				orderAmount = FuzzyAmount.VERY_HIGH;
 				break;
 			case VERY_LOW:
-				orderAmount = FuzzyAmount.HIGH;
+				orderAmount = FuzzyAmount.MEDIUM;
 				break;
 			case LOW:
-				orderAmount = FuzzyAmount.MEDIUM;
+				orderAmount = FuzzyAmount.LOW;
 				break;
 			case MEDIUM:
 				orderAmount = FuzzyAmount.LOW;

@@ -1,7 +1,9 @@
 package application.product;
 
+import application.Log;
 import application.Utilities;
 import application.fuzzy.FuzzyAmount;
+import application.fuzzy.FuzzySystem;
 
 public class StoredProduct {
 	private Product product;
@@ -40,8 +42,6 @@ public class StoredProduct {
 
 	public void setNumOfDemand(int numOfDemand) {
 		this.numOfDemand = numOfDemand;
-
-		this.fuzzyDemandAmount = FuzzyAmount.detAmount(Utilities.getInstance().divide(numOfDemand, numOfStock));
 	}
 
 	private FuzzyAmount fuzzyStockAmount;
@@ -54,23 +54,42 @@ public class StoredProduct {
 		this.fuzzyStockAmount = fuzzyStockAmount;
 	}
 
-	private FuzzyAmount fuzzyDemandAmount;
-
-	public FuzzyAmount getFuzzyDemandAmount() {
-		return fuzzyDemandAmount;
-	}
-
-	public void setFuzzyDemandAmount(FuzzyAmount fuzzyDemandAmount) {
-		this.fuzzyDemandAmount = fuzzyDemandAmount;
-	}
-
 	public StoredProduct(Product product, int amount) {
 		this.product = product;
 		this.numOfStock = amount;
 	}
 
+	// FIX Detects demand == NOTHING though we ordered a lot  
 	public void order(int numOfDemand) {
+		int oldStockAmount = getNumOfStock();
+		
 		setNumOfDemand(numOfDemand);
+		int demandAmount = getNumOfDemand();
+		
 		decreaseNumOfStock(numOfDemand);
+		int newStockAmount = getNumOfStock();
+
+		double stockRate = Utilities.getInstance().divide(newStockAmount, oldStockAmount);
+		FuzzyAmount fuzzyStockAmount = FuzzyAmount.getByRate(stockRate);
+
+		double demandRate = Utilities.getInstance().divide(demandAmount, oldStockAmount);
+		FuzzyAmount fuzzyDemandAmount = FuzzyAmount.getByRate(demandRate);
+
+		Log.getInstance().add("==> " + getProduct().getName());
+		Log.getInstance().add("Demand amount: " + fuzzyDemandAmount.toString() + " (" + demandAmount + ")");
+		Log.getInstance().add("Stock amount: " + fuzzyStockAmount.toString() + " (" + newStockAmount + ")");
+		
+		FuzzyAmount fuzzyOrderAmount = FuzzySystem.getInstance().getFuzzyOrderAmount(fuzzyDemandAmount,
+				fuzzyStockAmount);
+		
+		int orderAmount = 0;
+		if (!fuzzyOrderAmount.equals(FuzzyAmount.NOTHING)) {
+			orderAmount = (int) (getNumOfDemand() * (1 + fuzzyOrderAmount.getMedian())) - newStockAmount;
+			Log.getInstance().add("Order amount: " + fuzzyOrderAmount.toString() + " (" + orderAmount + ")");
+
+			increaseNumOfStock(orderAmount);
+		} else {
+			Log.getInstance().add("Order amount: " + fuzzyOrderAmount.toString() + " (0)");
+		}
 	}
 }

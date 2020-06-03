@@ -4,11 +4,14 @@ import application.History;
 import application.Log;
 import application.Main;
 import application.Utilities;
+import application.fuzzy.FuzzySystem;
 import application.product.Warehouse;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -35,19 +38,60 @@ public class MainScene {
 	@FXML
 	private TextField tf_numOfDemand_d;
 	@FXML
-	private LineChart<Integer, Integer> lc_stockAmount;
+	private LineChart<String, Integer> lc_demand_a;
+	@FXML
+	private BarChart<String, Integer> bc_stock_a;
+	@FXML
+	private LineChart<String, Integer> lc_demand_b;
+	@FXML
+	private BarChart<String, Integer> bc_stock_b;
+	@FXML
+	private LineChart<String, Integer> lc_demand_c;
+	@FXML
+	private BarChart<String, Integer> bc_stock_c;
+	@FXML
+	private LineChart<String, Integer> lc_demand_d;
+	@FXML
+	private BarChart<String, Integer> bc_stock_d;
 	@FXML
 	private ListView<String> lv_console;
+
+	private Series<String, Integer> series_stock_a = new Series<String, Integer>();
+	private Series<String, Integer> series_demand_a = new Series<String, Integer>();
 
 	@FXML
 	private void initialize() {
 		Log.getInstance().setOutputControl(lv_console);
-		
+
+		initChart();
+		initHistory();
 		initGUI();
 		initEvents();
 	}
 
+	private void initChart() {
+		series_stock_a.setName("series_stock_a");
+		series_demand_a.setName("series_demand_a");
+
+		if (!bc_stock_a.getData().contains(series_stock_a)) {
+			bc_stock_a.getData().add(series_stock_a);
+		}
+		
+		if (!lc_demand_a.getData().contains(series_demand_a)) {
+			lc_demand_a.getData().add(series_demand_a);
+		}
+		
+	}
+
+	private void initHistory() {
+		History.getInstance().clear(series_stock_a, series_demand_a);
+		History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct(), series_stock_a,
+				series_demand_a);
+	}
+
 	private void initGUI() {
+		FuzzySystem.getInstance().setRound(0);
+
 		tf_numOfStock_a.setText(String.valueOf(Main.DefaultNumOfStock_A));
 		tf_numOfStock_b.setText(String.valueOf(Main.DefaultNumOfStock_B));
 		tf_numOfStock_c.setText(String.valueOf(Main.DefaultNumOfStock_C));
@@ -143,11 +187,22 @@ public class MainScene {
 		} else if (numOfDemand_d > numOfStock_d) {
 			tf_numOfDemand_d.setText(String.valueOf(numOfStock_d));
 		} else {
+			FuzzySystem.getInstance().increaseRound();
+
+			Log.getInstance().add("******************************************");
+			Log.getInstance().add("* Runde " + FuzzySystem.getInstance().getRound());
+			Log.getInstance().add("******************************************");
+
 			Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().order(numOfDemand_a);
+			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct(), series_stock_a,
+					series_demand_a);
+
 			Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().order(numOfDemand_b);
+
 			Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().order(numOfDemand_c);
+
 			Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().order(numOfDemand_d);
-			Warehouse.getInstance().order();
+
 		}
 	}
 

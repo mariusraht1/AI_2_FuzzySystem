@@ -1,9 +1,6 @@
 package application.product;
 
-import application.Log;
 import application.Main;
-import application.Utilities;
-import application.fuzzy.FuzzyAmount;
 
 public class Warehouse {
 	private String name;
@@ -68,34 +65,5 @@ public class Warehouse {
 
 	public int getMaxDemandAmount() {
 		return maxNumOfStock - getTotalStockAmount();
-	}
-
-	public void order() {
-		for (StoredProduct storedProduct : Warehouse.getInstance().getStoredProducts()) {
-			double stockRate = Utilities.getInstance().divide(storedProduct.getNumOfStock(),
-					Warehouse.getInstance().getMaxNumOfStock());
-
-			FuzzyAmount fuzzyOrderAmount = FuzzyAmount.NOTHING;
-			FuzzyAmount fuzzyStockAmount = FuzzyAmount.detAmount(stockRate);
-
-			Log.getInstance().add("******************************************");
-			Log.getInstance().add("* " + storedProduct.getProduct().getName());
-			Log.getInstance().add("******************************************");
-			Log.getInstance().add("Fuzzified stock amount: " + fuzzyStockAmount.toString());
-			Log.getInstance().add("Fuzzified demand amount: " + storedProduct.getFuzzyDemandAmount().toString());
-
-			// Stock should exceed demand by 1 step
-			fuzzyOrderAmount = storedProduct.getFuzzyDemandAmount().getNextHigherAmount();
-
-			if (fuzzyOrderAmount.getValue() <= fuzzyStockAmount.getValue()) {
-				fuzzyOrderAmount = FuzzyAmount.NOTHING;
-			}
-			
-			Log.getInstance().add("Fuzzified order amount: " + fuzzyOrderAmount.toString());
-
-			if (!fuzzyOrderAmount.equals(FuzzyAmount.NOTHING)) {
-				// TODO: Implement order amount calculation
-			}
-		}
 	}
 }
