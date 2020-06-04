@@ -42,6 +42,8 @@ public class MainScene {
 	@FXML
 	private TextField tf_numOfDemand_d;
 	@FXML
+	private Label lbl_round;
+	@FXML
 	private LineChart<String, Integer> lc_demand_a;
 	@FXML
 	private NumberAxis na_y_demand_a;
@@ -193,6 +195,7 @@ public class MainScene {
 		tf_numOfStock_d.setText(String.valueOf(numOfStock_d));
 		tf_numOfAddStock.setText(String.valueOf(numOfAddStock));
 		lbl_totalMaxStock.setText("(" + String.valueOf(numOfMaxStock) + ")");
+		lbl_round.setText("Round " + FuzzySystem.getInstance().getRound());
 	}
 
 	private void initEvents() {
@@ -282,7 +285,8 @@ public class MainScene {
 			tf_numOfDemand_d.setText(String.valueOf(numOfStock_d));
 		} else {
 			FuzzySystem.getInstance().increaseRound();
-
+			lbl_round.setText("Round " + FuzzySystem.getInstance().getRound());
+			
 			Log.getInstance().add("******************************************");
 			Log.getInstance().add("* Round " + FuzzySystem.getInstance().getRound());
 			Log.getInstance().add("******************************************");

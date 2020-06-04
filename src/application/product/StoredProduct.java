@@ -59,7 +59,6 @@ public class StoredProduct {
 		this.numOfStock = amount;
 	}
 
-	// FIX Test failed: 100 - 130 - 150 (Demand is detected as NOTHING)
 	public void order(int numOfDemand) {
 		int oldStockAmount = getNumOfStock();
 
