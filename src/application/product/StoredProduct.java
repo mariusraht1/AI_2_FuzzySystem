@@ -59,12 +59,12 @@ public class StoredProduct {
 		this.numOfStock = amount;
 	}
 
-	// FIX Detects demand == NOTHING though we ordered a lot
+	// FIX Test failed: 100 - 130 - 150 (Demand is detected as NOTHING)
 	public void order(int numOfDemand) {
 		int oldStockAmount = getNumOfStock();
 
 		setNumOfDemand(numOfDemand);
-		int demandAmount = getNumOfDemand();
+		int demandAmount = numOfDemand;
 
 		decreaseNumOfStock(numOfDemand);
 		int newStockAmount = getNumOfStock();
@@ -84,12 +84,18 @@ public class StoredProduct {
 
 		int orderAmount = 0;
 		if (!fuzzyOrderAmount.equals(FuzzyAmount.NOTHING)) {
-			orderAmount = (int) (getNumOfDemand() * (1 + fuzzyOrderAmount.getMedian())) - newStockAmount;
-			Log.getInstance().add("Order amount: " + fuzzyOrderAmount.toString() + " (" + orderAmount + ")");
+			// sqrt( Demand * (1 + Median of fuzzyOrderAmount) ^ 2 )	=> Suppress negative results
+			orderAmount = (int) Math
+					.sqrt(Math.pow(newStockAmount - (getNumOfDemand() * (1 + fuzzyOrderAmount.getMedian())), 2));
+
+			if (Warehouse.getInstance().getNumOfFreeStock() < orderAmount) {
+				orderAmount = Warehouse.getInstance().getNumOfFreeStock();
+			}
 
 			increaseNumOfStock(orderAmount);
-		} else {
-			Log.getInstance().add("Order amount: " + fuzzyOrderAmount.toString() + " (0)");
 		}
+
+		Log.getInstance().add("Order amount: " + fuzzyOrderAmount.toString() + " (" + orderAmount + ")");
+		Log.getInstance().add("New stock amount: " + getNumOfStock());
 	}
 }

@@ -13,14 +13,14 @@ public class Warehouse {
 		this.name = name;
 	}
 
-	private int maxNumOfStock;
+	private int numOfMaxStock;
 
-	public int getMaxNumOfStock() {
-		return maxNumOfStock;
+	public int getNumOfMaxStock() {
+		return numOfMaxStock;
 	}
 
-	public void setMaxNumOfStock(int maxNumOfStock) {
-		this.maxNumOfStock = maxNumOfStock;
+	public void setNumOfMaxStock(int numOfMaxStock) {
+		this.numOfMaxStock = numOfMaxStock;
 	}
 
 	private StoredProductList storedProducts;
@@ -44,8 +44,8 @@ public class Warehouse {
 	}
 
 	private Warehouse() {
-		this.maxNumOfStock = Main.DefaultNumOfStock_A + Main.DefaultNumOfStock_B + Main.DefaultNumOfStock_C
-				+ Main.DefaultNumOfStock_D + Main.DefaultNumOfAddStock;
+		setNumOfMaxStock(Main.DefaultNumOfStock_A + Main.DefaultNumOfStock_B + Main.DefaultNumOfStock_C
+				+ Main.DefaultNumOfStock_D + Main.DefaultNumOfAddStock);
 
 		storedProducts = new StoredProductList();
 		for (Main.DefaultStoredProduct defaultStoredProduct : Main.DefaultStoredProduct.values()) {
@@ -53,17 +53,21 @@ public class Warehouse {
 		}
 	}
 
-	public int getTotalStockAmount() {
+	public int getNumOfStoredStock() {
 		int storedAmount = 0;
 
-		for (StoredProduct storedProduct : storedProducts) {
+		for (StoredProduct storedProduct : getStoredProducts()) {
 			storedAmount += storedProduct.getNumOfStock();
 		}
 
 		return storedAmount;
 	}
 
-	public int getMaxDemandAmount() {
-		return maxNumOfStock - getTotalStockAmount();
+	public int getNumOfMaxDemand() {
+		return (getNumOfMaxStock() - getNumOfStoredStock());
+	}
+
+	public int getNumOfFreeStock() {
+		return getNumOfMaxStock() - getNumOfStoredStock();
 	}
 }

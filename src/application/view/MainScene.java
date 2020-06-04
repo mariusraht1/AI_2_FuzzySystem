@@ -13,6 +13,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
@@ -43,19 +44,35 @@ public class MainScene {
 	@FXML
 	private LineChart<String, Integer> lc_demand_a;
 	@FXML
+	private NumberAxis na_y_demand_a;
+	@FXML
 	private BarChart<String, Integer> bc_stock_a;
+	@FXML
+	private NumberAxis na_y_stock_a;
 	@FXML
 	private LineChart<String, Integer> lc_demand_b;
 	@FXML
+	private NumberAxis na_y_demand_b;
+	@FXML
 	private BarChart<String, Integer> bc_stock_b;
+	@FXML
+	private NumberAxis na_y_stock_b;
 	@FXML
 	private LineChart<String, Integer> lc_demand_c;
 	@FXML
+	private NumberAxis na_y_demand_c;
+	@FXML
 	private BarChart<String, Integer> bc_stock_c;
+	@FXML
+	private NumberAxis na_y_stock_c;
 	@FXML
 	private LineChart<String, Integer> lc_demand_d;
 	@FXML
+	private NumberAxis na_y_demand_d;
+	@FXML
 	private BarChart<String, Integer> bc_stock_d;
+	@FXML
+	private NumberAxis na_y_stock_d;
 	@FXML
 	private ListView<String> lv_console;
 
@@ -70,8 +87,6 @@ public class MainScene {
 
 	@FXML
 	private void initialize() {
-		// OPT Set upperBound of charts to maximum stock amount
-		
 		Log.getInstance().setOutputControl(lv_console);
 		FuzzySystem.getInstance().setRound(0);
 
@@ -85,34 +100,42 @@ public class MainScene {
 		if (!bc_stock_a.getData().contains(series_stock_a)) {
 			bc_stock_a.getData().add(series_stock_a);
 		}
+		na_y_stock_a.setUpperBound(Warehouse.getInstance().getNumOfMaxStock());
 
 		if (!lc_demand_a.getData().contains(series_demand_a)) {
 			lc_demand_a.getData().add(series_demand_a);
 		}
+		na_y_demand_a.setUpperBound(Warehouse.getInstance().getNumOfMaxStock());
 
 		if (!bc_stock_b.getData().contains(series_stock_b)) {
 			bc_stock_b.getData().add(series_stock_b);
 		}
+		na_y_stock_b.setUpperBound(Warehouse.getInstance().getNumOfMaxStock());
 
 		if (!lc_demand_b.getData().contains(series_demand_b)) {
 			lc_demand_b.getData().add(series_demand_b);
 		}
+		na_y_demand_b.setUpperBound(Warehouse.getInstance().getNumOfMaxStock());
 
 		if (!bc_stock_c.getData().contains(series_stock_c)) {
 			bc_stock_c.getData().add(series_stock_c);
 		}
+		na_y_stock_c.setUpperBound(Warehouse.getInstance().getNumOfMaxStock());
 
 		if (!lc_demand_c.getData().contains(series_demand_c)) {
 			lc_demand_c.getData().add(series_demand_c);
 		}
+		na_y_demand_c.setUpperBound(Warehouse.getInstance().getNumOfMaxStock());
 
 		if (!bc_stock_d.getData().contains(series_stock_d)) {
 			bc_stock_d.getData().add(series_stock_d);
 		}
+		na_y_stock_d.setUpperBound(Warehouse.getInstance().getNumOfMaxStock());
 
 		if (!lc_demand_d.getData().contains(series_demand_d)) {
 			lc_demand_d.getData().add(series_demand_d);
 		}
+		na_y_demand_d.setUpperBound(Warehouse.getInstance().getNumOfMaxStock());
 	}
 
 	private void initHistory() {
@@ -149,15 +172,27 @@ public class MainScene {
 	}
 
 	private void initGUI() {
-		FuzzySystem.getInstance().setRound(0);
+		int numOfMaxStock = Warehouse.getInstance().getNumOfMaxStock();
+		int numOfStock_a = Warehouse.getInstance().getStoredProducts()
+				.getByName(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().getProduct().getName())
+				.getNumOfStock();
+		int numOfStock_b = Warehouse.getInstance().getStoredProducts()
+				.getByName(Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().getProduct().getName())
+				.getNumOfStock();
+		int numOfStock_c = Warehouse.getInstance().getStoredProducts()
+				.getByName(Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().getProduct().getName())
+				.getNumOfStock();
+		int numOfStock_d = Warehouse.getInstance().getStoredProducts()
+				.getByName(Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().getProduct().getName())
+				.getNumOfStock();
+		int numOfAddStock = numOfMaxStock - (numOfStock_a + numOfStock_b + numOfStock_c + numOfStock_d);
 
-		tf_numOfStock_a.setText(String.valueOf(Main.DefaultNumOfStock_A));
-		tf_numOfStock_b.setText(String.valueOf(Main.DefaultNumOfStock_B));
-		tf_numOfStock_c.setText(String.valueOf(Main.DefaultNumOfStock_C));
-		tf_numOfStock_d.setText(String.valueOf(Main.DefaultNumOfStock_D));
-		tf_numOfAddStock.setText(String.valueOf(Main.DefaultNumOfAddStock));
-
-		update_lbl_totalMaxStock();
+		tf_numOfStock_a.setText(String.valueOf(numOfStock_a));
+		tf_numOfStock_b.setText(String.valueOf(numOfStock_b));
+		tf_numOfStock_c.setText(String.valueOf(numOfStock_c));
+		tf_numOfStock_d.setText(String.valueOf(numOfStock_d));
+		tf_numOfAddStock.setText(String.valueOf(numOfAddStock));
+		lbl_totalMaxStock.setText("(" + String.valueOf(numOfMaxStock) + ")");
 	}
 
 	private void initEvents() {
@@ -199,9 +234,9 @@ public class MainScene {
 		int numOfStock_b = Utilities.getInstance().parseInt(tf_numOfStock_b.getText());
 		int numOfStock_c = Utilities.getInstance().parseInt(tf_numOfStock_c.getText());
 		int numOfStock_d = Utilities.getInstance().parseInt(tf_numOfStock_d.getText());
-		int maxNumOfStock = numOfAddStock + numOfStock_a + numOfStock_b + numOfStock_c + numOfStock_d;
+		int numOfMaxStock = numOfAddStock + numOfStock_a + numOfStock_b + numOfStock_c + numOfStock_d;
 
-		lbl_totalMaxStock.setText("(" + String.valueOf(maxNumOfStock) + ")");
+		lbl_totalMaxStock.setText("(" + String.valueOf(numOfMaxStock) + ")");
 	}
 
 	@FXML
@@ -249,24 +284,27 @@ public class MainScene {
 			FuzzySystem.getInstance().increaseRound();
 
 			Log.getInstance().add("******************************************");
-			Log.getInstance().add("* Runde " + FuzzySystem.getInstance().getRound());
+			Log.getInstance().add("* Round " + FuzzySystem.getInstance().getRound());
 			Log.getInstance().add("******************************************");
 
 			Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().order(numOfDemand_a);
 			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct(), series_stock_a,
 					series_demand_a);
-
 			Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().order(numOfDemand_b);
 			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct(), series_stock_b,
 					series_demand_b);
-
 			Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().order(numOfDemand_c);
 			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct(), series_stock_c,
 					series_demand_c);
-
 			Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().order(numOfDemand_d);
 			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct(), series_stock_d,
 					series_demand_d);
+
+			Log.getInstance().add("******************************************");
+			Log.getInstance().add("Maxim. stock: " + Warehouse.getInstance().getNumOfMaxStock());
+			Log.getInstance().add("Stored stock: " + Warehouse.getInstance().getNumOfStoredStock());
+			Log.getInstance().add("Avail. stock: " + Warehouse.getInstance().getNumOfFreeStock());
+			Log.getInstance().add("******************************************");
 		}
 	}
 
@@ -283,6 +321,7 @@ public class MainScene {
 		int numOfStock_b = Utilities.getInstance().parseInt(tf_numOfStock_b.getText());
 		int numOfStock_c = Utilities.getInstance().parseInt(tf_numOfStock_c.getText());
 		int numOfStock_d = Utilities.getInstance().parseInt(tf_numOfStock_d.getText());
+		int numOfMaxStock = numOfAddStock + numOfStock_a + numOfStock_b + numOfStock_c + numOfStock_d;
 
 		if (numOfAddStock < 0) {
 			tf_numOfAddStock.setText(String.valueOf(Main.DefaultNumOfAddStock));
@@ -295,6 +334,7 @@ public class MainScene {
 		} else if (numOfStock_d < 0) {
 			tf_numOfStock_d.setText(String.valueOf(Main.DefaultNumOfStock_D));
 		} else {
+			Warehouse.getInstance().setNumOfMaxStock(numOfMaxStock);
 			initialize();
 		}
 	}

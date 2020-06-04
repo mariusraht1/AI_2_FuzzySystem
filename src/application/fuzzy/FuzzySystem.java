@@ -80,7 +80,7 @@ public class FuzzySystem {
 				orderAmount = FuzzyAmount.LOW;
 				break;
 			case MEDIUM:
-				orderAmount = FuzzyAmount.VERY_LOW;
+				orderAmount = FuzzyAmount.LOW;
 				break;
 			default:
 				break;
