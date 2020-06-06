@@ -162,15 +162,6 @@ public class MainScene {
 		seriesList.add(series_demand_d);
 
 		History.getInstance().clear(xyCharts, seriesList);
-
-		History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct(), series_stock_a,
-				series_demand_a);
-		History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct(), series_stock_b,
-				series_demand_b);
-		History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct(), series_stock_c,
-				series_demand_c);
-		History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct(), series_stock_d,
-				series_demand_d);
 	}
 
 	private void initGUI() {
@@ -291,18 +282,10 @@ public class MainScene {
 			Log.getInstance().add("* Round " + FuzzySystem.getInstance().getRound());
 			Log.getInstance().add("******************************************");
 
-			Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().order(numOfDemand_a);
-			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct(), series_stock_a,
-					series_demand_a);
-			Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().order(numOfDemand_b);
-			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct(), series_stock_b,
-					series_demand_b);
-			Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().order(numOfDemand_c);
-			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct(), series_stock_c,
-					series_demand_c);
-			Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().order(numOfDemand_d);
-			History.getInstance().add(Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct(), series_stock_d,
-					series_demand_d);
+			Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().order(numOfDemand_a, series_stock_a, series_demand_a );
+			Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().order(numOfDemand_b, series_stock_b, series_demand_b);
+			Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().order(numOfDemand_c, series_stock_c, series_demand_c);
+			Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().order(numOfDemand_d, series_stock_d, series_demand_d);
 
 			Log.getInstance().add("******************************************");
 			Log.getInstance().add("Maxim. stock: " + Warehouse.getInstance().getNumOfMaxStock());

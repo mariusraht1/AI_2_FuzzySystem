@@ -4,10 +4,13 @@ import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
 import application.Utilities.OSType;
+import application.fuzzy.FuzzyAmount;
 import application.fuzzy.FuzzySystem;
 import application.product.StoredProduct;
 import javafx.scene.chart.CategoryAxis;
@@ -26,19 +29,27 @@ public class History {
 		return instance;
 	}
 
-	private List<int[]> development = new ArrayList<int[]>();
+	private List<String[]> development = new ArrayList<String[]>();
 
-	private File file = new File("history.txt");
+	private File file = new File("history.csv");
 
 	public File getFile() {
 		return file;
 	}
 
 	private History() {
+		initHeader();
 	};
+
+	private void initHeader() {
+		development.add(new String[] { "Round", "Product", "Stock", "Demand", "Demand Rate", "Fuzz. Demand",
+				"New Stock", "New Stock Rate", "Fuzz. New Stock", "Fuzz. Order Amount", "Order Amount Factor",
+				"Order Amount" });
+	}
 
 	public void clear(ArrayList<XYChart<String, Integer>> charts, ArrayList<Series<String, Integer>> seriesList) {
 		development.clear();
+		initHeader();
 
 		for (XYChart<String, Integer> xyChart : charts) {
 			CategoryAxis categoryAxis = (CategoryAxis) xyChart.getXAxis();
@@ -48,26 +59,64 @@ public class History {
 		for (Series<String, Integer> serie : seriesList) {
 			serie.getData().clear();
 		}
+
+		add(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct(), seriesList.get(0), seriesList.get(1));
+		add(Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct(), seriesList.get(2), seriesList.get(3));
+		add(Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct(), seriesList.get(4), seriesList.get(5));
+		add(Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct(), seriesList.get(6), seriesList.get(7));
 	}
 
-	public void add(StoredProduct storedProduct, Series<String, Integer> series_stock_a,
-			Series<String, Integer> series_demand_a) {
+	public void add(StoredProduct storedProduct, Series<String, Integer> series_stock,
+			Series<String, Integer> series_demand) {
 		int round = FuzzySystem.getInstance().getRound();
+		String productName = storedProduct.getProduct().getName();
+		int stock = storedProduct.getNumOfStock();
+		int demand = storedProduct.getNumOfDemand();
 
-		development.add(new int[] { round, storedProduct.getNumOfStock(), storedProduct.getNumOfDemand() });
+		development.add(new String[] { String.valueOf(round), productName, String.valueOf(stock),
+				String.valueOf(demand), String.valueOf(0.00), FuzzyAmount.NOTHING.toString(), String.valueOf(0),
+				String.valueOf(0.00), FuzzyAmount.NOTHING.toString(), FuzzyAmount.NOTHING.toString(),
+				String.valueOf(0.00), String.valueOf(0) });
 
-		series_stock_a.getData().add(new Data<String, Integer>(String.valueOf(round), storedProduct.getNumOfStock()));
-		series_demand_a.getData().add(new Data<String, Integer>(String.valueOf(round), storedProduct.getNumOfDemand()));
+		series_stock.getData().add(new Data<String, Integer>(String.valueOf(round), storedProduct.getNumOfStock()));
+		series_demand.getData().add(new Data<String, Integer>(String.valueOf(round), storedProduct.getNumOfDemand()));
+	}
+
+	public void add(StoredProduct storedProduct, Series<String, Integer> series_stock,
+			Series<String, Integer> series_demand, double demandRate, FuzzyAmount fuzzyDemand, int newStock,
+			double newStockRate, FuzzyAmount fuzzyNewStock, FuzzyAmount fuzzyOrderAmount, double orderAmountFactor,
+			int orderAmount, int planStock) {
+		int round = FuzzySystem.getInstance().getRound();
+		String productName = storedProduct.getProduct().getName();
+		int stock = storedProduct.getNumOfStock();
+		int demand = storedProduct.getNumOfDemand();
+
+		DecimalFormat decimalFormat = new DecimalFormat("#.##");
+		DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+		decimalFormatSymbols.setDecimalSeparator('.');
+		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
+
+		demandRate = Double.valueOf(decimalFormat.format(demandRate));
+		newStockRate = Double.valueOf(decimalFormat.format(newStockRate));
+		orderAmountFactor = Double.valueOf(decimalFormat.format(orderAmountFactor));
+		
+		development.add(new String[] { String.valueOf(round), productName, String.valueOf(stock),
+				String.valueOf(demand), String.valueOf(demandRate), fuzzyDemand.toString(), String.valueOf(newStock),
+				String.valueOf(newStockRate), fuzzyNewStock.toString(), fuzzyOrderAmount.toString(),
+				String.valueOf(orderAmountFactor), String.valueOf(orderAmount) });
+
+		series_stock.getData().add(new Data<String, Integer>(String.valueOf(round), storedProduct.getNumOfStock()));
+		series_demand.getData().add(new Data<String, Integer>(String.valueOf(round), storedProduct.getNumOfDemand()));
 	}
 
 	public void export() {
 		try {
 			StringBuilder stringBuilder = new StringBuilder();
-			for (int[] x : development) {
+			for (String[] x : development) {
 				for (int i = 0; i < x.length; i++) {
 					stringBuilder.append(x[i]);
 					if (i < x.length - 1) {
-						stringBuilder.append(",");
+						stringBuilder.append(";");
 					}
 				}
 				stringBuilder.append("\n");

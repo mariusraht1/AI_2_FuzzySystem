@@ -1,9 +1,11 @@
 package application.product;
 
+import application.History;
 import application.Log;
 import application.Utilities;
 import application.fuzzy.FuzzyAmount;
 import application.fuzzy.FuzzySystem;
+import javafx.scene.chart.XYChart.Series;
 
 public class StoredProduct {
 	private Product product;
@@ -59,7 +61,7 @@ public class StoredProduct {
 		this.numOfStock = amount;
 	}
 
-	public void order(int numOfDemand) {
+	public void order(int numOfDemand, Series<String, Integer> series_stock, Series<String, Integer> series_demand) {
 		int oldStockAmount = getNumOfStock();
 
 		setNumOfDemand(numOfDemand);
@@ -68,6 +70,7 @@ public class StoredProduct {
 		decreaseNumOfStock(numOfDemand);
 		int newStockAmount = getNumOfStock();
 
+		double orderFactor = 0;
 		double stockRate = Utilities.getInstance().divide(newStockAmount, oldStockAmount);
 		FuzzyAmount fuzzyStockAmount = FuzzyAmount.getByRate(stockRate);
 
@@ -83,9 +86,10 @@ public class StoredProduct {
 
 		int orderAmount = 0;
 		if (!fuzzyOrderAmount.equals(FuzzyAmount.NOTHING)) {
-			// sqrt( Demand * (1 + Median of fuzzyOrderAmount) ^ 2 )	=> Suppress negative results
-			orderAmount = (int) Math
-					.sqrt(Math.pow(newStockAmount - (getNumOfDemand() * (1 + fuzzyOrderAmount.getMedian())), 2));
+			// sqrt( Demand * (1 + Median of fuzzyOrderAmount) ^ 2 ) => Suppress negative
+			// results
+			orderFactor = 1 + fuzzyOrderAmount.getMedian();
+			orderAmount = (int) Math.sqrt(Math.pow(newStockAmount - (getNumOfDemand() * orderFactor), 2));
 
 			if (Warehouse.getInstance().getNumOfFreeStock() < orderAmount) {
 				orderAmount = Warehouse.getInstance().getNumOfFreeStock();
@@ -96,5 +100,8 @@ public class StoredProduct {
 
 		Log.getInstance().add("Order amount: " + fuzzyOrderAmount.toString() + " (" + orderAmount + ")");
 		Log.getInstance().add("New stock amount: " + getNumOfStock());
+
+		History.getInstance().add(this, series_stock, series_demand, demandRate, fuzzyDemandAmount, newStockAmount,
+				stockRate, fuzzyStockAmount, fuzzyOrderAmount, orderFactor, orderAmount, newStockAmount);
 	}
 }
