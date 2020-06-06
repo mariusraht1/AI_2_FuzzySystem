@@ -13,6 +13,7 @@ import application.Utilities.OSType;
 import application.fuzzy.FuzzyAmount;
 import application.fuzzy.FuzzySystem;
 import application.product.StoredProduct;
+import application.product.Warehouse;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
@@ -59,7 +60,11 @@ public class History {
 		for (Series<String, Integer> serie : seriesList) {
 			serie.getData().clear();
 		}
-
+		
+		for(StoredProduct storedProduct : Warehouse.getInstance().getStoredProducts()) {
+			storedProduct.setNumOfDemand(0);
+		}
+		
 		add(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct(), seriesList.get(0), seriesList.get(1));
 		add(Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct(), seriesList.get(2), seriesList.get(3));
 		add(Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct(), seriesList.get(4), seriesList.get(5));

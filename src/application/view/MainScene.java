@@ -112,7 +112,7 @@ public class MainScene {
 		initEvents();
 	}
 
-	private void initChart() {
+	private void initChart() {		
 		if (!bc_stock_a.getData().contains(series_stock_a)) {
 			bc_stock_a.getData().add(series_stock_a);
 		}
@@ -122,7 +122,7 @@ public class MainScene {
 			lc_demand_a.getData().add(series_demand_a);
 		}
 		na_y_demand_a.setUpperBound(Warehouse.getInstance().getNumOfMaxStock());
-
+		
 		if (!bc_stock_b.getData().contains(series_stock_b)) {
 			bc_stock_b.getData().add(series_stock_b);
 		}
@@ -258,7 +258,7 @@ public class MainScene {
 		Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().setNumOfStock(Main.DefaultNumOfStock_B);
 		Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().setNumOfStock(Main.DefaultNumOfStock_C);
 		Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().setNumOfStock(Main.DefaultNumOfStock_D);
-
+		
 		initialize();
 	}
 

@@ -65,7 +65,7 @@
             </Label>
 				<BarChart fx:id="bc_stock_a" alternativeRowFillVisible="false" animated="false" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="200.0" prefWidth="200.0" title="Produkt A" verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.rowIndex="1">
 					<xAxis>
-						<CategoryAxis side="BOTTOM" />
+						<CategoryAxis animated="false" side="BOTTOM" />
 					</xAxis>
 					<yAxis>
 						<NumberAxis fx:id="na_y_stock_a" animated="false" autoRanging="false" lowerBound="0.0" minorTickCount="100" prefHeight="135.0" prefWidth="35.0" side="LEFT" tickUnit="100.0" upperBound="1000.0" />
@@ -73,7 +73,7 @@
 				</BarChart>
 				<LineChart fx:id="lc_demand_a" alternativeRowFillVisible="false" animated="false" createSymbols="false" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="200.0" prefWidth="200.0" stylesheets="@style.css" title=" " verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.rowIndex="1">
 					<xAxis>
-						<CategoryAxis side="BOTTOM" />
+						<CategoryAxis animated="false" side="BOTTOM" />
 					</xAxis>
 					<yAxis>
 						<NumberAxis fx:id="na_y_demand_a" animated="false" autoRanging="false" lowerBound="0.0" minorTickCount="100" prefHeight="135.0" prefWidth="35.0" side="LEFT" tickUnit="100.0" upperBound="1000.0" />
@@ -81,7 +81,7 @@
 				</LineChart>
 				<BarChart fx:id="bc_stock_b" alternativeRowFillVisible="false" animated="false" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="200.0" prefWidth="200.0" title="Produkt B" verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
 					<xAxis>
-						<CategoryAxis side="BOTTOM" />
+						<CategoryAxis animated="false" side="BOTTOM" />
 					</xAxis>
 					<yAxis>
 						<NumberAxis fx:id="na_y_stock_b" animated="false" autoRanging="false" lowerBound="0.0" minorTickCount="100" prefHeight="135.0" prefWidth="35.0" side="LEFT" tickUnit="100.0" upperBound="1000.0" />
@@ -89,7 +89,7 @@
 				</BarChart>
 				<LineChart fx:id="lc_demand_b" alternativeRowFillVisible="false" animated="false" createSymbols="false" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="200.0" prefWidth="200.0" stylesheets="@style.css" title=" " verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
 					<xAxis>
-						<CategoryAxis side="BOTTOM" />
+						<CategoryAxis animated="false" side="BOTTOM" />
 					</xAxis>
 					<yAxis>
 						<NumberAxis fx:id="na_y_demand_b" animated="false" autoRanging="false" lowerBound="0.0" minorTickCount="100" prefHeight="135.0" prefWidth="35.0" side="LEFT" tickUnit="100.0" upperBound="1000.0" />
@@ -97,7 +97,7 @@
 				</LineChart>
 				<BarChart fx:id="bc_stock_c" alternativeRowFillVisible="false" animated="false" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="200.0" prefWidth="200.0" title="Produkt C" verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.rowIndex="2">
 					<xAxis>
-						<CategoryAxis side="BOTTOM" />
+						<CategoryAxis animated="false" side="BOTTOM" />
 					</xAxis>
 					<yAxis>
 						<NumberAxis fx:id="na_y_stock_c" animated="false" autoRanging="false" lowerBound="0.0" minorTickCount="100" prefHeight="135.0" prefWidth="35.0" side="LEFT" tickUnit="100.0" upperBound="1000.0" />
@@ -105,7 +105,7 @@
 				</BarChart>
 				<LineChart fx:id="lc_demand_c" alternativeRowFillVisible="false" animated="false" createSymbols="false" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="200.0" prefWidth="200.0" stylesheets="@style.css" title=" " verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.rowIndex="2">
 					<xAxis>
-						<CategoryAxis side="BOTTOM" />
+						<CategoryAxis animated="false" side="BOTTOM" />
 					</xAxis>
 					<yAxis>
 						<NumberAxis fx:id="na_y_demand_c" animated="false" autoRanging="false" lowerBound="0.0" minorTickCount="100" prefHeight="135.0" prefWidth="35.0" side="LEFT" tickUnit="100.0" upperBound="1000.0" />
@@ -113,7 +113,7 @@
 				</LineChart>
 				<BarChart fx:id="bc_stock_d" alternativeRowFillVisible="false" animated="false" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="200.0" prefWidth="200.0" title="Produkt D" verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
 					<xAxis>
-						<CategoryAxis side="BOTTOM" />
+						<CategoryAxis animated="false" side="BOTTOM" />
 					</xAxis>
 					<yAxis>
 						<NumberAxis fx:id="na_y_stock_d" animated="false" autoRanging="false" lowerBound="0.0" minorTickCount="100" prefHeight="135.0" prefWidth="35.0" side="LEFT" tickUnit="100.0" upperBound="1000.0" />
@@ -121,7 +121,7 @@
 				</BarChart>
 				<LineChart fx:id="lc_demand_d" alternativeRowFillVisible="false" animated="false" createSymbols="false" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="200.0" prefWidth="200.0" stylesheets="@style.css" title=" " verticalGridLinesVisible="false" verticalZeroLineVisible="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
 					<xAxis>
-						<CategoryAxis side="BOTTOM" />
+						<CategoryAxis animated="false" side="BOTTOM" />
 					</xAxis>
 					<yAxis>
 						<NumberAxis fx:id="na_y_demand_d" animated="false" autoRanging="false" lowerBound="0.0" minorTickCount="100" prefHeight="135.0" prefWidth="35.0" side="LEFT" tickUnit="100.0" upperBound="1000.0" />
