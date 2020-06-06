@@ -72,4 +72,17 @@ public enum FuzzyAmount {
 
 		return result;
 	}
+	
+	public static FuzzyAmount getByID(int id) {
+		FuzzyAmount result = FuzzyAmount.NOTHING;
+		
+		for (FuzzyAmount fuzzyAmount : FuzzyAmount.values()) {
+			if(id == fuzzyAmount.getValue()) {
+				result = fuzzyAmount;
+				break;
+			}
+		}
+		
+		return result;
+	}
 }

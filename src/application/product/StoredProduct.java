@@ -81,8 +81,8 @@ public class StoredProduct {
 		Log.getInstance().add("Demand amount: " + fuzzyDemandAmount.toString() + " (" + demandAmount + ")");
 		Log.getInstance().add("Stock amount: " + fuzzyStockAmount.toString() + " (" + newStockAmount + ")");
 
-		FuzzyAmount fuzzyOrderAmount = FuzzySystem.getInstance().getFuzzyOrderAmount(fuzzyDemandAmount,
-				fuzzyStockAmount);
+		FuzzyAmount fuzzyOrderAmount = FuzzySystem.getInstance().getFuzzyOrderAmount(fuzzyStockAmount,
+				fuzzyDemandAmount);
 
 		int orderAmount = 0;
 		if (!fuzzyOrderAmount.equals(FuzzyAmount.NOTHING)) {

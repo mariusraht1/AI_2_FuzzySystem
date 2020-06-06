@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.MainScene">
+<GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.MainScene">
 	<children>
 		<Label text="Initiale Startwerte:" GridPane.columnSpan="3">
 			<font>
@@ -31,32 +31,32 @@
 		<Label text="Produkt D:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
 		<TextField fx:id="tf_numOfStock_d" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
 		<Label text="Zusätzl. Lagermenge:" GridPane.columnSpan="3" GridPane.rowIndex="4" />
-		<TextField fx:id="tf_numOfAddStock" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-		<Label fx:id="lbl_totalMaxStock" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-		<Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnSetInitValues" text="OK" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-		<Separator GridPane.columnSpan="5" GridPane.rowIndex="5">
+		<TextField fx:id="tf_numOfAddStock" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="61.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+		<Label fx:id="lbl_totalMaxStock" text="0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+		<Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnSetInitValues" text="OK" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+		<Separator GridPane.columnSpan="5" GridPane.rowIndex="7">
 			<GridPane.margin>
 				<Insets top="3.0" />
 			</GridPane.margin>
 		</Separator>
-		<Label text="Meldung der Nachfragemenge:" GridPane.columnSpan="3" GridPane.rowIndex="6">
+		<Label text="Meldung der Nachfragemenge:" GridPane.columnSpan="3" GridPane.rowIndex="8">
 			<font>
 				<Font name="System Bold" size="12.0" />
 			</font>
 		</Label>
-		<Label text="Produkt A:" GridPane.rowIndex="7" />
-		<TextField fx:id="tf_numOfDemand_a" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-		<Label text="Produkt B:" GridPane.rowIndex="8" />
-		<TextField fx:id="tf_numOfDemand_b" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-		<Label text="Produkt C:" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-		<TextField fx:id="tf_numOfDemand_c" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-		<Label text="Produkt D:" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-		<TextField fx:id="tf_numOfDemand_d" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-		<Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnPlay" text="Play" GridPane.columnIndex="4" GridPane.rowIndex="8" />
-		<Button cancelButton="true" minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnExport" text="Export" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-		<Button cancelButton="true" minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnReset" text="Reset" GridPane.columnIndex="4" GridPane.rowIndex="9" />
-		<ListView fx:id="lv_console" prefWidth="350.0" GridPane.columnIndex="7" GridPane.rowSpan="12" />
-		<GridPane GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowSpan="12">
+		<Label text="Produkt A:" GridPane.rowIndex="9" />
+		<TextField fx:id="tf_numOfDemand_a" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+		<Label text="Produkt B:" GridPane.rowIndex="10" />
+		<TextField fx:id="tf_numOfDemand_b" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+		<Label text="Produkt C:" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+		<TextField fx:id="tf_numOfDemand_c" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+		<Label text="Produkt D:" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+		<TextField fx:id="tf_numOfDemand_d" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+		<Button minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnPlay" text="Play" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+		<Button cancelButton="true" minWidth="50.0" mnemonicParsing="false" onAction="#onAction_btnExport" text="Export" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+		<Button cancelButton="true" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAction_btnReset" prefWidth="61.0" text="Reset" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+		<ListView fx:id="lv_console" prefWidth="350.0" GridPane.columnIndex="7" GridPane.rowSpan="13" />
+		<GridPane GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowSpan="13">
 			<children>
             <Label fx:id="lbl_round" text="Round 1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
@@ -138,6 +138,8 @@
 				<RowConstraints />
 			</rowConstraints>
 		</GridPane>
+      <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAction_changeFuzzyMatrix" text="Fuzzy-Entscheidungsmatrix ändern" GridPane.columnSpan="4" GridPane.rowIndex="6" />
+      <Label text="Lagermenge insges.:" GridPane.columnSpan="2" GridPane.rowIndex="5" />
 	</children>
 	<padding>
 		<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -158,10 +160,13 @@
 		<RowConstraints />
 		<RowConstraints />
 		<RowConstraints />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
 		<RowConstraints />
 		<RowConstraints />
 		<RowConstraints />
 		<RowConstraints />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
 		<RowConstraints />
 		<RowConstraints />
       <RowConstraints vgrow="SOMETIMES" />

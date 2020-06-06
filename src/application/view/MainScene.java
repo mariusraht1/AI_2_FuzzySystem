@@ -11,6 +11,8 @@ import application.product.Warehouse;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -19,6 +21,8 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class MainScene {
 	@FXML
@@ -86,6 +90,16 @@ public class MainScene {
 	private Series<String, Integer> series_demand_c = new Series<String, Integer>();
 	private Series<String, Integer> series_stock_d = new Series<String, Integer>();
 	private Series<String, Integer> series_demand_d = new Series<String, Integer>();
+
+	private static boolean canceledFuzzyMatrixConfig;
+
+	public static boolean isCanceledFuzzyMatrixConfig() {
+		return canceledFuzzyMatrixConfig;
+	}
+
+	public static void setCanceledFuzzyMatrixConfig(boolean canceledFuzzyMatrixConfig) {
+		MainScene.canceledFuzzyMatrixConfig = canceledFuzzyMatrixConfig;
+	}
 
 	@FXML
 	private void initialize() {
@@ -185,7 +199,7 @@ public class MainScene {
 		tf_numOfStock_c.setText(String.valueOf(numOfStock_c));
 		tf_numOfStock_d.setText(String.valueOf(numOfStock_d));
 		tf_numOfAddStock.setText(String.valueOf(numOfAddStock));
-		lbl_totalMaxStock.setText("(" + String.valueOf(numOfMaxStock) + ")");
+		lbl_totalMaxStock.setText(String.valueOf(numOfMaxStock));
 		lbl_round.setText("Round " + FuzzySystem.getInstance().getRound());
 	}
 
@@ -230,11 +244,21 @@ public class MainScene {
 		int numOfStock_d = Utilities.getInstance().parseInt(tf_numOfStock_d.getText());
 		int numOfMaxStock = numOfAddStock + numOfStock_a + numOfStock_b + numOfStock_c + numOfStock_d;
 
-		lbl_totalMaxStock.setText("(" + String.valueOf(numOfMaxStock) + ")");
+		lbl_totalMaxStock.setText(String.valueOf(numOfMaxStock));
 	}
 
 	@FXML
 	private void onAction_btnReset() {
+		FuzzySystem.getInstance().initFuzzyMatrix();
+		reset();
+	}
+
+	public void reset() {
+		Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().setNumOfStock(Main.DefaultNumOfStock_A);
+		Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().setNumOfStock(Main.DefaultNumOfStock_B);
+		Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().setNumOfStock(Main.DefaultNumOfStock_C);
+		Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().setNumOfStock(Main.DefaultNumOfStock_D);
+
 		initialize();
 	}
 
@@ -277,15 +301,19 @@ public class MainScene {
 		} else {
 			FuzzySystem.getInstance().increaseRound();
 			lbl_round.setText("Round " + FuzzySystem.getInstance().getRound());
-			
+
 			Log.getInstance().add("******************************************");
 			Log.getInstance().add("* Round " + FuzzySystem.getInstance().getRound());
 			Log.getInstance().add("******************************************");
 
-			Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().order(numOfDemand_a, series_stock_a, series_demand_a );
-			Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().order(numOfDemand_b, series_stock_b, series_demand_b);
-			Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().order(numOfDemand_c, series_stock_c, series_demand_c);
-			Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().order(numOfDemand_d, series_stock_d, series_demand_d);
+			Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().order(numOfDemand_a, series_stock_a,
+					series_demand_a);
+			Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().order(numOfDemand_b, series_stock_b,
+					series_demand_b);
+			Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().order(numOfDemand_c, series_stock_c,
+					series_demand_c);
+			Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().order(numOfDemand_d, series_stock_d,
+					series_demand_d);
 
 			Log.getInstance().add("******************************************");
 			Log.getInstance().add("Maxim. stock: " + Warehouse.getInstance().getNumOfMaxStock());
@@ -323,6 +351,30 @@ public class MainScene {
 		} else {
 			Warehouse.getInstance().setNumOfMaxStock(numOfMaxStock);
 			initialize();
+		}
+	}
+
+	@FXML
+	private void onAction_changeFuzzyMatrix() {
+		canceledFuzzyMatrixConfig = true;
+		openFuzzyMatrixConfigScene(this);
+	}
+
+	private void openFuzzyMatrixConfigScene(MainScene mainScene) {
+		try {
+			final Stage dialog = new Stage();
+			dialog.initModality(Modality.APPLICATION_MODAL);
+			dialog.initOwner(Main.getPrimaryStage());
+			dialog.setTitle("Fuzzy-Entscheidungsmatrix");
+
+			FuzzyMatrixConfigScene.setMainScene(mainScene);
+
+			Scene scene = new Scene(
+					FXMLLoader.load(Main.class.getResource("/application/view/FuzzyMatrixConfigScene.fxml")));
+			dialog.setScene(scene);
+			dialog.show();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
