@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -39,6 +40,13 @@ public class History {
 	}
 
 	private History() {
+		try {
+			file = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+			file = new File(file.getParentFile().getPath() + "//history.txt");
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+
 		initHeader();
 	};
 
@@ -60,11 +68,11 @@ public class History {
 		for (Series<String, Integer> serie : seriesList) {
 			serie.getData().clear();
 		}
-		
-		for(StoredProduct storedProduct : Warehouse.getInstance().getStoredProducts()) {
+
+		for (StoredProduct storedProduct : Warehouse.getInstance().getStoredProducts()) {
 			storedProduct.setNumOfDemand(0);
 		}
-		
+
 		add(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct(), seriesList.get(0), seriesList.get(1));
 		add(Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct(), seriesList.get(2), seriesList.get(3));
 		add(Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct(), seriesList.get(4), seriesList.get(5));
@@ -104,7 +112,7 @@ public class History {
 		demandRate = Double.valueOf(decimalFormat.format(demandRate));
 		newStockRate = Double.valueOf(decimalFormat.format(newStockRate));
 		orderAmountFactor = Double.valueOf(decimalFormat.format(orderAmountFactor));
-		
+
 		development.add(new String[] { String.valueOf(round), productName, String.valueOf(stock),
 				String.valueOf(demand), String.valueOf(demandRate), fuzzyDemand.toString(), String.valueOf(newStock),
 				String.valueOf(newStockRate), fuzzyNewStock.toString(), fuzzyOrderAmount.toString(),
