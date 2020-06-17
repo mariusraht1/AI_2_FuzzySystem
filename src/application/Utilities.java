@@ -14,12 +14,13 @@ public class Utilities {
 		return instance;
 	}
 
+	private Random random = new Random();
+	
 	protected Utilities() {
 	}
 
 	public int generateRandom(int min, int max) {
-		Random r = new Random();
-		return r.nextInt((max - min) + 1) + min;
+		return random.nextInt((max - min) + 1) + min;
 	}
 
 	public enum OSType {
