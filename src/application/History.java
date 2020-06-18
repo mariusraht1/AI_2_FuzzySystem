@@ -5,8 +5,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.net.URISyntaxException;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,14 +102,9 @@ public class History {
 		int stock = storedProduct.getNumOfStock();
 		int demand = storedProduct.getNumOfDemand();
 
-		DecimalFormat decimalFormat = new DecimalFormat("0.00");
-		DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
-		decimalFormatSymbols.setDecimalSeparator('.');
-		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
-
-		demandRate = Double.valueOf(decimalFormat.format(demandRate));
-		newStockRate = Double.valueOf(decimalFormat.format(newStockRate));
-		orderAmountFactor = Double.valueOf(decimalFormat.format(orderAmountFactor));
+		demandRate = Utilities.getInstance().formatDouble("0.00", demandRate);
+		newStockRate = Utilities.getInstance().formatDouble("0.00", newStockRate);
+		orderAmountFactor = Utilities.getInstance().formatDouble("0.00", orderAmountFactor);
 
 		development.add(new String[] { String.valueOf(round), productName, String.valueOf(stock),
 				String.valueOf(demand), String.valueOf(demandRate), fuzzyDemand.toString(), String.valueOf(newStock),
