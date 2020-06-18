@@ -104,7 +104,7 @@ public class History {
 		int stock = storedProduct.getNumOfStock();
 		int demand = storedProduct.getNumOfDemand();
 
-		DecimalFormat decimalFormat = new DecimalFormat("#.##");
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
 		DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
 		decimalFormatSymbols.setDecimalSeparator('.');
 		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
