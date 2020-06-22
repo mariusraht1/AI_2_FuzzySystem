@@ -7,6 +7,7 @@ import application.Log;
 import application.Main;
 import application.Utilities;
 import application.fuzzy.FuzzySystem;
+import application.product.StoredProduct;
 import application.product.Warehouse;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -112,7 +113,7 @@ public class MainScene {
 		initEvents();
 	}
 
-	private void initChart() {		
+	private void initChart() {
 		if (!bc_stock_a.getData().contains(series_stock_a)) {
 			bc_stock_a.getData().add(series_stock_a);
 		}
@@ -122,7 +123,7 @@ public class MainScene {
 			lc_demand_a.getData().add(series_demand_a);
 		}
 		na_y_demand_a.setUpperBound(Warehouse.getInstance().getNumOfMaxStock());
-		
+
 		if (!bc_stock_b.getData().contains(series_stock_b)) {
 			bc_stock_b.getData().add(series_stock_b);
 		}
@@ -258,7 +259,7 @@ public class MainScene {
 		Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().setNumOfStock(Main.DefaultNumOfStock_B);
 		Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().setNumOfStock(Main.DefaultNumOfStock_C);
 		Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().setNumOfStock(Main.DefaultNumOfStock_D);
-		
+
 		initialize();
 	}
 
@@ -355,7 +356,7 @@ public class MainScene {
 	}
 
 	@FXML
-	private void onAction_changeFuzzyMatrix() {
+	private void onAction_btnChangeFuzzyMatrix() {
 		canceledFuzzyMatrixConfig = true;
 		openFuzzyMatrixConfigScene(this);
 	}
@@ -375,6 +376,27 @@ public class MainScene {
 			dialog.show();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	private void onAction_btnGenerateDemand() {
+		for (StoredProduct storedProduct : Warehouse.getInstance().getStoredProducts()) {
+			int random = Utilities.getInstance().generateRandom(0, storedProduct.getNumOfStock());
+
+			if (storedProduct.getProduct().getName()
+					.equals(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().getProduct().getName())) {
+				tf_numOfDemand_a.setText(String.valueOf(random));
+			} else if (storedProduct.getProduct().getName()
+					.equals(Main.DefaultStoredProduct.PRODUCT_B.getStoredProduct().getProduct().getName())) {
+				tf_numOfDemand_b.setText(String.valueOf(random));
+			} else if (storedProduct.getProduct().getName()
+					.equals(Main.DefaultStoredProduct.PRODUCT_C.getStoredProduct().getProduct().getName())) {
+				tf_numOfDemand_c.setText(String.valueOf(random));
+			} else if (storedProduct.getProduct().getName()
+					.equals(Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().getProduct().getName())) {
+				tf_numOfDemand_d.setText(String.valueOf(random));
+			}
 		}
 	}
 }
