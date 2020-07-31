@@ -2,10 +2,10 @@ package application.product;
 
 import application.History;
 import application.Log;
-import application.Utilities;
 import application.fuzzy.FuzzyAmount;
 import application.fuzzy.FuzzySystem;
 import javafx.scene.chart.XYChart.Series;
+import library.MathManager;
 
 public class StoredProduct {
 	private Product product;
@@ -71,10 +71,10 @@ public class StoredProduct {
 		int newStockAmount = getNumOfStock();
 
 		double orderFactor = 0;
-		double stockRate = Utilities.getInstance().divide(newStockAmount, oldStockAmount);
+		double stockRate = MathManager.getInstance().divide(newStockAmount, oldStockAmount);
 		FuzzyAmount fuzzyStockAmount = FuzzyAmount.getByRate(stockRate);
 
-		double demandRate = Utilities.getInstance().divide(demandAmount, oldStockAmount);
+		double demandRate = MathManager.getInstance().divide(demandAmount, oldStockAmount);
 		FuzzyAmount fuzzyDemandAmount = FuzzyAmount.getByRate(demandRate);
 
 		Log.getInstance().add("==> " + getProduct().getName());

@@ -8,7 +8,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.Utilities.OSType;
 import application.fuzzy.FuzzyAmount;
 import application.fuzzy.FuzzySystem;
 import application.product.StoredProduct;
@@ -17,6 +16,9 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
+import library.GeneralUtilities;
+import library.GeneralUtilities.OSType;
+import library.MathManager;
 
 public class History {
 	private static History instance;
@@ -102,9 +104,9 @@ public class History {
 		int stock = storedProduct.getNumOfStock();
 		int demand = storedProduct.getNumOfDemand();
 
-		demandRate = Utilities.getInstance().formatDouble("0.00", demandRate);
-		newStockRate = Utilities.getInstance().formatDouble("0.00", newStockRate);
-		orderAmountFactor = Utilities.getInstance().formatDouble("0.00", orderAmountFactor);
+		demandRate = MathManager.getInstance().formatDouble("0.00", demandRate);
+		newStockRate = MathManager.getInstance().formatDouble("0.00", newStockRate);
+		orderAmountFactor = MathManager.getInstance().formatDouble("0.00", orderAmountFactor);
 
 		development.add(new String[] { String.valueOf(round), productName, String.valueOf(stock),
 				String.valueOf(demand), String.valueOf(demandRate), fuzzyDemand.toString(), String.valueOf(newStock),
@@ -139,7 +141,7 @@ public class History {
 
 	public void showExport() {
 		try {
-			if (Utilities.getInstance().getOperatingSystemType().equals(OSType.Windows)) {
+			if (GeneralUtilities.getInstance().getOperatingSystemType().equals(OSType.Windows)) {
 				Runtime.getRuntime().exec("explorer.exe /select, " + file);
 			} else {
 				Desktop.getDesktop().open(History.getInstance().getFile());

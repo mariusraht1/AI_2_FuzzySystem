@@ -55,7 +55,7 @@ public class FuzzyMatrixConfigScene {
 		MainScene.setCanceledFuzzyMatrixConfig(false);
 		Stage dialog = (Stage) gp_stock_demand.getScene().getWindow();
 		dialog.close();
-		
+
 		mainScene.reset();
 	}
 

@@ -58,11 +58,11 @@ public enum FuzzyAmount {
 		FuzzyAmount result = FuzzyAmount.NOTHING;
 
 		DecimalFormat decimalFormat = new DecimalFormat("#.##");
-	    DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
-	    decimalFormatSymbols.setDecimalSeparator('.');
-	    decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);    
+		DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+		decimalFormatSymbols.setDecimalSeparator('.');
+		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
 		rate = Double.valueOf(decimalFormat.format(rate));
-		
+
 		for (FuzzyAmount fuzzyAmount : FuzzyAmount.values()) {
 			if (fuzzyAmount.getMin() <= rate && fuzzyAmount.getMax() >= rate) {
 				result = fuzzyAmount;
@@ -72,17 +72,17 @@ public enum FuzzyAmount {
 
 		return result;
 	}
-	
+
 	public static FuzzyAmount getByID(int id) {
 		FuzzyAmount result = FuzzyAmount.NOTHING;
-		
+
 		for (FuzzyAmount fuzzyAmount : FuzzyAmount.values()) {
-			if(id == fuzzyAmount.getValue()) {
+			if (id == fuzzyAmount.getValue()) {
 				result = fuzzyAmount;
 				break;
 			}
 		}
-		
+
 		return result;
 	}
 }

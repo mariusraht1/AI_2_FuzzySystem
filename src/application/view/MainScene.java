@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import application.History;
 import application.Log;
 import application.Main;
-import application.Utilities;
 import application.fuzzy.FuzzySystem;
 import application.product.StoredProduct;
 import application.product.Warehouse;
@@ -24,6 +23,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import library.MathManager;
 
 public class MainScene {
 	@FXML
@@ -238,11 +238,11 @@ public class MainScene {
 	}
 
 	protected void update_lbl_totalMaxStock() {
-		int numOfAddStock = Utilities.getInstance().parseInt(tf_numOfAddStock.getText());
-		int numOfStock_a = Utilities.getInstance().parseInt(tf_numOfStock_a.getText());
-		int numOfStock_b = Utilities.getInstance().parseInt(tf_numOfStock_b.getText());
-		int numOfStock_c = Utilities.getInstance().parseInt(tf_numOfStock_c.getText());
-		int numOfStock_d = Utilities.getInstance().parseInt(tf_numOfStock_d.getText());
+		int numOfAddStock = MathManager.getInstance().parseInt(tf_numOfAddStock.getText());
+		int numOfStock_a = MathManager.getInstance().parseInt(tf_numOfStock_a.getText());
+		int numOfStock_b = MathManager.getInstance().parseInt(tf_numOfStock_b.getText());
+		int numOfStock_c = MathManager.getInstance().parseInt(tf_numOfStock_c.getText());
+		int numOfStock_d = MathManager.getInstance().parseInt(tf_numOfStock_d.getText());
 		int numOfMaxStock = numOfAddStock + numOfStock_a + numOfStock_b + numOfStock_c + numOfStock_d;
 
 		lbl_totalMaxStock.setText(String.valueOf(numOfMaxStock));
@@ -265,10 +265,10 @@ public class MainScene {
 
 	@FXML
 	private void onAction_btnPlay() {
-		int numOfDemand_a = Utilities.getInstance().parseInt(tf_numOfDemand_a.getText());
-		int numOfDemand_b = Utilities.getInstance().parseInt(tf_numOfDemand_b.getText());
-		int numOfDemand_c = Utilities.getInstance().parseInt(tf_numOfDemand_c.getText());
-		int numOfDemand_d = Utilities.getInstance().parseInt(tf_numOfDemand_d.getText());
+		int numOfDemand_a = MathManager.getInstance().parseInt(tf_numOfDemand_a.getText());
+		int numOfDemand_b = MathManager.getInstance().parseInt(tf_numOfDemand_b.getText());
+		int numOfDemand_c = MathManager.getInstance().parseInt(tf_numOfDemand_c.getText());
+		int numOfDemand_d = MathManager.getInstance().parseInt(tf_numOfDemand_d.getText());
 
 		int numOfStock_a = Warehouse.getInstance().getStoredProducts()
 				.getByName(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().getProduct().getName())
@@ -332,11 +332,11 @@ public class MainScene {
 
 	@FXML
 	private void onAction_btnSetInitValues() {
-		int numOfAddStock = Utilities.getInstance().parseInt(tf_numOfAddStock.getText());
-		int numOfStock_a = Utilities.getInstance().parseInt(tf_numOfStock_a.getText());
-		int numOfStock_b = Utilities.getInstance().parseInt(tf_numOfStock_b.getText());
-		int numOfStock_c = Utilities.getInstance().parseInt(tf_numOfStock_c.getText());
-		int numOfStock_d = Utilities.getInstance().parseInt(tf_numOfStock_d.getText());
+		int numOfAddStock = MathManager.getInstance().parseInt(tf_numOfAddStock.getText());
+		int numOfStock_a = MathManager.getInstance().parseInt(tf_numOfStock_a.getText());
+		int numOfStock_b = MathManager.getInstance().parseInt(tf_numOfStock_b.getText());
+		int numOfStock_c = MathManager.getInstance().parseInt(tf_numOfStock_c.getText());
+		int numOfStock_d = MathManager.getInstance().parseInt(tf_numOfStock_d.getText());
 		int numOfMaxStock = numOfAddStock + numOfStock_a + numOfStock_b + numOfStock_c + numOfStock_d;
 
 		if (numOfAddStock < 0) {
@@ -382,7 +382,7 @@ public class MainScene {
 	@FXML
 	private void onAction_btnGenerateDemand() {
 		for (StoredProduct storedProduct : Warehouse.getInstance().getStoredProducts()) {
-			int random = Utilities.getInstance().generateRandom(0, storedProduct.getNumOfStock());
+			int random = MathManager.getInstance().getRandom(0, storedProduct.getNumOfStock());
 
 			if (storedProduct.getProduct().getName()
 					.equals(Main.DefaultStoredProduct.PRODUCT_A.getStoredProduct().getProduct().getName())) {
