@@ -283,23 +283,41 @@ public class MainScene {
 				.getByName(Main.DefaultStoredProduct.PRODUCT_D.getStoredProduct().getProduct().getName())
 				.getNumOfStock();
 
+		boolean valid = true;
+
 		if (numOfDemand_a < 0) {
+			valid = false;
 			tf_numOfDemand_a.setText("0");
 		} else if (numOfDemand_a > numOfStock_a) {
 			tf_numOfDemand_a.setText(String.valueOf(numOfStock_a));
-		} else if (numOfDemand_b < 0) {
+			numOfDemand_a = numOfStock_a;
+		}
+
+		if (numOfDemand_b < 0) {
+			valid = false;
 			tf_numOfDemand_b.setText("0");
 		} else if (numOfDemand_b > numOfStock_b) {
 			tf_numOfDemand_b.setText(String.valueOf(numOfStock_b));
-		} else if (numOfDemand_c < 0) {
+			numOfDemand_b = numOfStock_b;
+		}
+
+		if (numOfDemand_c < 0) {
+			valid = false;
 			tf_numOfDemand_c.setText("0");
 		} else if (numOfDemand_c > numOfStock_c) {
 			tf_numOfDemand_c.setText(String.valueOf(numOfStock_c));
-		} else if (numOfDemand_d < 0) {
+			numOfDemand_c = numOfStock_c;
+		}
+
+		if (numOfDemand_d < 0) {
+			valid = false;
 			tf_numOfDemand_d.setText("0");
 		} else if (numOfDemand_d > numOfStock_d) {
 			tf_numOfDemand_d.setText(String.valueOf(numOfStock_d));
-		} else {
+			numOfDemand_d = numOfStock_d;
+		}
+
+		if (valid) {
 			FuzzySystem.getInstance().increaseRound();
 			lbl_round.setText("Round " + FuzzySystem.getInstance().getRound());
 
@@ -317,7 +335,7 @@ public class MainScene {
 					series_demand_d);
 
 			Log.getInstance().add("******************************************");
-			Log.getInstance().add("Maxim. stock: " + Warehouse.getInstance().getNumOfMaxStock());
+			Log.getInstance().add("Max. stock: " + Warehouse.getInstance().getNumOfMaxStock());
 			Log.getInstance().add("Stored stock: " + Warehouse.getInstance().getNumOfStoredStock());
 			Log.getInstance().add("Avail. stock: " + Warehouse.getInstance().getNumOfFreeStock());
 			Log.getInstance().add("******************************************");
